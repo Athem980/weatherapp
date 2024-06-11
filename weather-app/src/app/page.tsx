@@ -166,9 +166,9 @@ export default function Home() {
 
   return (
     <>
-      <div className=" root h-screen w-screen bg">
+      <div className=" root bg-fixed h-screen w-screen overflow-auto ">
         {" "}
-        <h1 className="text-4xl font-semibold text-center mt-4 ">
+        <h1 className="text-4xl font-semibold text-center pt-10 ">
           Weather app
         </h1>
         <div className="flex justify-center items-center ">
@@ -176,68 +176,74 @@ export default function Home() {
             type="text"
             value={cityName}
             placeholder="Enter city name"
-            className="rounded-full w-2/6 h-12 border-slate-950 mt-6 p-4"
+            className="rounded-full w-4/6 md:w-1/6 h-12 border-slate-950 mt-6 p-4"
             onChange={(e) => {
               setCityName(e.target.value);
             }}
           ></input>
           <button onClick={handleClick}>
             {" "}
-            <Search className="w-12 h-12 mt-6 border-gray-300 ml-2 rounded-md " />
+            <Search className="w-12 h-12 mt-6 bordered ml-2 rounded-md " />
           </button>
         </div>
         {wrong ? (
-          <p className="text-center font-medium text-slate-100 mt-4 text-2xl">
+          <p className="text-center font-medium text-black mt-4 text-2xl">
             You have misspelled the place name please try again
           </p>
         ) : (
           <>
             <div className="w-full h-full flex-column justify-center  items-center  mt-4 drop-shadow-lg ">
-              <div className="h-1/4 w-1/2 flex justify-center items-center mx-auto ">
+              <div className="h-2/6 w-full sm:w-1/2 flex justify-center items-center mx-auto p-1">
                 {weather && (
-                  <Card className="font-medium text-slate-100 backdrop-blur-sm shadow-lg border-blue-950 rounded-lg border-none h-full w-full bg-inherit backdrop-opacity-95">
+                  <Card className="  font-medium text-black backdrop-blur-sm shadow-lg border-none rounded-lg  h-5/6 w-full bg-inherit backdrop-opacity-95">
                     <CardHeader>
-                      <CardTitle>
+                      <CardTitle className="text-lg md:4xl">
                         {place?.name}, {place?.adm_area1}, {place?.country}
                       </CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="p-2">
                       {getWeatherIcon(weather.current.icon_num) ? (
                         <p className="float-right">
                           {getWeatherIcon(weather.current.icon_num)}
                         </p>
                       ) : null}
 
-                      <p>Temperature: {weather.current.temperature}°C</p>
-                      <p>Wind:{weather.current.wind.speed}</p>
+                      <p className="text-sm font-semibold">
+                        Temperature: {weather.current.temperature}°C
+                      </p>
+                      <p className="text-sm font-semibold">
+                        Wind:{weather.current.wind.speed}
+                      </p>
 
-                      <p>Weather: {weather.current.summary}</p>
+                      <p className="text-sm font-semibold">
+                        Weather: {weather.current.summary}
+                      </p>
                     </CardContent>
                   </Card>
                 )}
               </div>
               <div className="w-full h-4/6 flex justify-center items-center m-0 drop-shadow-lg">
-                <Card className="w-full h-full border-none bg-inherit ">
-                  <CardHeader>
-                    <CardTitle className="text-center text-4xl font-medium text-slate-100">
+                <Card className="w-full h-full border-none bg-inherit  ">
+                  <CardHeader className="pt-4 h-20 w-full">
+                    <CardTitle className="text-center text-2xl  font-medium text-black">
                       {weather ? "7 days weather forecast" : null}
                     </CardTitle>
                   </CardHeader>
 
-                  <div className="flex flex-wrap justify-center items-center gap-2 mt-0 drop-shadow-lg">
+                  <div className="z-10 flex flex-wrap justify-center items-center gap-2 mt-0 ">
                     {weather?.daily.data.map((day, index) => (
-                      <div
+                      <Card
                         key={index}
-                        className="h-48 w-48 shadow-lg border-blue-950 rounded-lg p-2 font-medium text-slate-100 backdrop-opacity-95 backdrop-blur-sm text-sm"
+                        className=" z-10 backdrop-blur-lg  bg-white/25 border-none h-48 w-40 p-1 shadow-lg text-shadow-md rounded-lg p-2  font-bold    text-sm"
                       >
-                        <CardContent>
+                        <CardContent className="p-1">
                           <p>{getDayName(day.day)}</p>
 
                           <p>Min: {day.all_day.temperature_min}°C</p>
                           <p>Max: {day.all_day.temperature_max}°C</p>
                           <p>{day.summary}</p>
                         </CardContent>
-                      </div>
+                      </Card>
                     ))}
                   </div>
                 </Card>
